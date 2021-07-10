@@ -1,12 +1,15 @@
 package org.cuj.stargazer.mainagent;
 
+import lombok.extern.log4j.Log4j2;
+
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.Instrumentation;
 import java.security.ProtectionDomain;
 
+@Log4j2
 public class PreMainAgent {
     public static void premain(String agentArgs, Instrumentation inst) {
-        System.out.println("agentArgs : " + agentArgs);
+        log.info("agentArgs : {}", agentArgs);
         inst.addTransformer(new DefineTransformer(), true);
     }
 
@@ -14,7 +17,7 @@ public class PreMainAgent {
 
         @Override
         public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) {
-            System.out.println("premain load Class:" + className);
+            log.info("premain load Class:{}", className);
             return classfileBuffer;
         }
     }

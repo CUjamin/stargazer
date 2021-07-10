@@ -1,7 +1,10 @@
 package org.cuj.stargazer.test;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 public class TestMain {
     public static void main(String[] args) {
-        System.out.println("Hello Java Agent");
+        log.info("Hello Java Agent");
     }
 }
