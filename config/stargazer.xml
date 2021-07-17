@@ -1,4 +1,5 @@
 <stargazer>
+    <switch>open</switch>
     <class package="org.cuj.stargazer.test" class_name="TestMain">
         <method>sayHello</method>
         <method>sayHello2</method>

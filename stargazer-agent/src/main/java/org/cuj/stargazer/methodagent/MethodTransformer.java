@@ -15,7 +15,6 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
-import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
 import java.util.*;
 
@@ -24,9 +23,17 @@ import java.util.*;
 public class MethodTransformer implements ClassFileTransformer {
     final static String prefix = "\nlong startTime = System.currentTimeMillis();\n";
     final static String postfix = "\nlong endTime = System.currentTimeMillis();\n";
+    final static String ifStartFix = "\nif(org.cuj.stargazer.methodagent.MethodTransformer.getSwitchIsOpen()){\n";
+    final static String ifEndFix = "\n}\n";
 
     // 被处理的方法列表
     final static Map<String, List<String>> methodMap = new HashMap<>();
+
+    private static boolean switchIsOpen = false;
+
+    public static boolean getSwitchIsOpen(){
+        return switchIsOpen;
+    }
 
     public MethodTransformer() {
         List<String> methodNameList = lodaMethod();
@@ -40,6 +47,11 @@ public class MethodTransformer implements ClassFileTransformer {
             //2.加载xml
             Document document = reader.read(new File("config/stargazer.xml"));
             Element rootElement = document.getRootElement();
+            Element switchIsOpenElement = rootElement.element("switch");
+            if(null!=switchIsOpenElement){
+                switchIsOpen = "open".equals(switchIsOpenElement.getTextTrim());
+            }
+
             List<Element> classMethodElementList = rootElement.elements("class");
 
             classMethodElementList.forEach(classMethodElement -> {
@@ -90,7 +102,9 @@ public class MethodTransformer implements ClassFileTransformer {
                             prefix +
                             newMethodName + "($$);\n" +// 调用原有代码，类似于method();($$)表示所有的参数
                             postfix +
+                            ifStartFix +
                             outputStr +
+                            ifEndFix +
                             "}";
                     newMethod.setBody(bodyStr);// 替换新方法
                     ctclass.addMethod(newMethod);// 增加新方法
