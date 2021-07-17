@@ -1,0 +1,9 @@
+<stargazer>
+    <class package="org.cuj.stargazer.test" class_name="TestMain">
+        <method>sayHello</method>
+        <method>sayHello2</method>
+    </class>
+    <class package="org.cuj.stargazer.test" class_name="TestOtherMethod">
+        <method>print</method>
+    </class>
+</stargazer>
