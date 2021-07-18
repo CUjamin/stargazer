@@ -2,7 +2,7 @@ package org.cuj.stargazer.mainagent;
 
 import lombok.extern.log4j.Log4j2;
 import org.cuj.stargazer.common.LogConstant;
-import org.cuj.stargazer.methodagent.MethodTransformer;
+import org.cuj.stargazer.transformer.MethodTransformer;
 import java.lang.instrument.Instrumentation;
 
 @Log4j2

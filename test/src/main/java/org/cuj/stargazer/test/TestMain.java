@@ -9,6 +9,18 @@ public class TestMain {
         sayHello();
         sayHello2("hello world222222222");
         new TestOtherMethod().print(" \" this is TestOtherMethod \"");
+        runTread();
+    }
+
+    private static void runTread() {
+        for(int i=0;i<10;++i){
+            new TestMethodThread(Integer.toString(i)).start();
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public static void sayHello() {
